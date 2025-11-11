@@ -31,7 +31,7 @@ func (h *Human) GetName() string {
 }
 
 func (h *Human) GetMove(_ [][]string) (int, error) {
-	prompt := h.languageService.GetString(shared.InputTicTacToeNumber)
+	prompt := h.languageService.GetString(shared.InputTicTacToeNumber, h.name)
 	fmt.Println(prompt)
 	var move int
 	_, err := fmt.Scanf("%d\n", &move)

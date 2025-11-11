@@ -19,7 +19,7 @@ func (g *German) GetName() string {
 func (g *German) GetString(key shared.Ressource, args ...string) string {
 	switch key {
 	case shared.InputTicTacToeNumber:
-		return "Geben Sie eine Zahl von 1 bis 9 ein:"
+		return fmt.Sprintf("%s, Geben Sie eine Zahl von 1 bis 9 ein:", args[0])
 	case shared.ChooseDifficulty:
 		return "Wählen Sie die Schwierigkeit: Leicht (0), Mittel (1), Schwer (2)"
 	case shared.PlayerCount:
