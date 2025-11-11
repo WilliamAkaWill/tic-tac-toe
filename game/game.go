@@ -1,9 +1,9 @@
 package game
 
 import (
+	"errors"
 	"fmt"
 	"os"
-	"errors"
 
 	custom_errors "github.com/WilliamAkaWill/tic-tac-toe/errors"
 	"github.com/WilliamAkaWill/tic-tac-toe/player"
@@ -28,7 +28,7 @@ func (g *Game) Exec() {
 	player1, player2 := g.getPlayers()
 	players := []player.Player{player1, player2}
 	currentPlayer := player1
-	var printer print.Printer = print.NewNormalPrinter()
+	printer := g.getPrinter()
 	board := initBoard()
 
 	summaryPrompt := g.languageService.GetString(shared.Summary)
@@ -49,6 +49,7 @@ func (g *Game) Exec() {
 			fmt.Printf("%v\n", err)
 			os.Exit(1)
 		}
+
 		row, col, err := validate.ValidateAndGetCoordinate(board, move)
 		if err != nil {
 			if errors.Is(err, custom_errors.ErrOutOfBounds) {
@@ -61,6 +62,7 @@ func (g *Game) Exec() {
 			}
 			continue
 		}
+
 		board[row][col] = string(currentPlayer.GetPlayerMark())
 
 		state := validate.CheckBoard(board)
@@ -70,6 +72,7 @@ func (g *Game) Exec() {
 			printer.PrintBoard(board)
 			break
 		}
+		
 		if state == shared.Tie {
 			tieGamePrompt := g.languageService.GetString(shared.TieGame)
 			fmt.Println(tieGamePrompt)
@@ -106,4 +109,23 @@ func (g *Game) getPlayers() (player.Player, player.Player) {
 		os.Exit(1)
 	}
 	return nil, nil
+}
+
+func (g *Game) getPrinter() print.Printer {
+	printerPrompt := g.languageService.GetString(shared.ChoosePrinter)
+	fmt.Println(printerPrompt)
+	var printerChoice int
+	_, err := fmt.Scanf("%d\n", &printerChoice)
+	if err != nil {
+		fmt.Printf("%s: %v\n", custom_errors.ErrInvalidInput, err)
+		os.Exit(1)
+	}
+
+	typ, err := shared.GetPrintFromInt(printerChoice)
+	if err != nil {
+		fmt.Printf("%v\n", err)
+		os.Exit(1)
+	}
+
+	return print.GetPrinter(typ)
 }

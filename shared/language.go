@@ -24,6 +24,7 @@ const (
 	InvalidMove
 	PlayerWon
 	TieGame
+	ChoosePrinter
 )
 
 type (

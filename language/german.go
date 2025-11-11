@@ -24,6 +24,8 @@ func (g *German) GetString(key shared.Ressource, args ...string) string {
 		return "Wählen Sie die Schwierigkeit: Leicht (0), Mittel (1), Schwer (2)"
 	case shared.PlayerCount:
 		return "Bitte geben Sie die Anzahl der Spieler ein (1 oder 2):"
+	case shared.ChoosePrinter:
+		return "Wählen Sie den Drucker: Normal (0), Fancy (1)"
 	case shared.Summary:
 		return "Zusammenfassung:"
 	case shared.LanguageSelection:
