@@ -2,6 +2,7 @@ package player
 
 import (
 	"fmt"
+	"github.com/WilliamAkaWill/tic-tac-toe/colors"
 	"github.com/WilliamAkaWill/tic-tac-toe/errors"
 	"github.com/WilliamAkaWill/tic-tac-toe/shared"
 )
@@ -32,7 +33,7 @@ func (h *Human) GetName() string {
 
 func (h *Human) GetMove(_ [][]string) (int, error) {
 	prompt := h.languageService.GetString(shared.InputTicTacToeNumber, h.name)
-	fmt.Println(prompt)
+	fmt.Print(colors.Colorize(colors.Cyan, prompt))
 	var move int
 	_, err := fmt.Scanf("%d\n", &move)
 	if err != nil {

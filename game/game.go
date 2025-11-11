@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/WilliamAkaWill/tic-tac-toe/colors"
 	custom_errors "github.com/WilliamAkaWill/tic-tac-toe/errors"
 	"github.com/WilliamAkaWill/tic-tac-toe/player"
 	"github.com/WilliamAkaWill/tic-tac-toe/print"
@@ -46,7 +47,7 @@ func (g *Game) Exec() {
 		currentPlayer = players[i%2]
 		move, err := currentPlayer.GetMove(board)
 		if err != nil {
-			fmt.Printf("%v\n", err)
+			colors.PrintError("%v\n", err)
 			os.Exit(1)
 		}
 
@@ -54,11 +55,11 @@ func (g *Game) Exec() {
 		if err != nil {
 			if errors.Is(err, custom_errors.ErrOutOfBounds) {
 				outOfBoundsPrompt := g.languageService.GetString(shared.OutOfBounds)
-				fmt.Println(outOfBoundsPrompt)
+				colors.PrintError("%s\n", outOfBoundsPrompt)
 			}
 			if errors.Is(err, custom_errors.ErrInvalidMove) {
 				invalidMovePrompt := g.languageService.GetString(shared.InvalidMove)
-				fmt.Println(invalidMovePrompt)
+				colors.PrintError("%s\n", invalidMovePrompt)
 			}
 			continue
 		}
@@ -68,14 +69,14 @@ func (g *Game) Exec() {
 		state := validate.CheckBoard(board)
 		if state == shared.Player1WON || state == shared.Player2WON {
 			playerWonPrompt := g.languageService.GetString(shared.PlayerWon, currentPlayer.GetName())
-			fmt.Println(playerWonPrompt)
+			colors.PrintSuccess("%s\n", playerWonPrompt)
 			printer.PrintBoard(board)
 			break
 		}
-		
+
 		if state == shared.Tie {
 			tieGamePrompt := g.languageService.GetString(shared.TieGame)
-			fmt.Println(tieGamePrompt)
+			colors.PrintWarning("%s\n", tieGamePrompt)
 			printer.PrintBoard(board)
 			break
 		}
